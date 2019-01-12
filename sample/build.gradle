@@ -20,7 +20,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(":libray")
     implementation deps.appcompat
+    implementation deps.recyclerview
     implementation deps.constraintlayout
 
     testImplementation deps.junit
