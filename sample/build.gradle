@@ -1,0 +1,30 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion deps.compileSdk
+    defaultConfig {
+        applicationId "com.samelody.samples.modapter"
+        minSdkVersion deps.minSdk
+        targetSdkVersion deps.targetSdk
+        versionCode deps.demoVersionCode
+        versionName deps.demoVersionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.appcompat
+    implementation deps.constraintlayout
+
+    testImplementation deps.junit
+
+    androidTestImplementation deps.test
+    androidTestImplementation deps.espresso
+}
