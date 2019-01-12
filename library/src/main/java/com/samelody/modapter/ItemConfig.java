@@ -68,7 +68,7 @@ public final class ItemConfig {
      *
      * @return The class object of view holder.
      */
-    Class<? extends ViewHolder> getHolderClass() {
+    public Class<? extends ViewHolder> getHolderClass() {
         return holderClass;
     }
 
@@ -77,7 +77,7 @@ public final class ItemConfig {
      *
      * @param holderClass The class object of view holder.
      */
-    void setHolderClass(Class<? extends ViewHolder> holderClass) {
+    public void setHolderClass(Class<? extends ViewHolder> holderClass) {
         this.holderClass = holderClass;
     }
 }
