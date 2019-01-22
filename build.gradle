@@ -10,7 +10,7 @@ buildscript {
     deps.demoVersionName = "0.1.0"
     deps.compileSdk = 28
     deps.targetSdk = 28
-    deps.minSdk = 25
+    deps.minSdk = 15
 
     deps.appcompat = "com.android.support:appcompat-v7:28.0.0"
     deps.recyclerview = "com.android.support:recyclerview-v7:28.0.0"
