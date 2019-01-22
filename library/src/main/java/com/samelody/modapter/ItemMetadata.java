@@ -4,16 +4,11 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 
 /**
- * This class represents item configuration in registry.
+ * A metadata describes the adapter item.
  *
  * @author Belin Wu
  */
-public final class ItemConfig {
-
-    /**
-     * The type of item.
-     */
-    private int type;
+public final class ItemMetadata {
 
     /**
      * The resource id of item layout.
@@ -25,6 +20,23 @@ public final class ItemConfig {
      * The class object of view holder.
      */
     private Class<? extends ViewHolder> holderClass;
+
+    /**
+     * Creates a new item metadata.
+     */
+    public ItemMetadata() {
+    }
+
+    /**
+     * Creates a new item metadata.
+     *
+     * @param layoutId The resource id of item layout.
+     * @param holderClass The class of view holder.
+     */
+    public ItemMetadata(int layoutId, Class<? extends ViewHolder> holderClass) {
+        this.layoutId = layoutId;
+        this.holderClass = holderClass;
+    }
 
     /**
      * Gets resource id of item layout.
@@ -43,24 +55,6 @@ public final class ItemConfig {
      */
     public void setLayoutId(@LayoutRes int layoutId) {
         this.layoutId = layoutId;
-    }
-
-    /**
-     * Sets type of item.
-     *
-     * @param type The type of item.
-     */
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    /**
-     * Gets type of item.
-     *
-     * @return The type of item.
-     */
-    public int getType() {
-        return this.type;
     }
 
     /**

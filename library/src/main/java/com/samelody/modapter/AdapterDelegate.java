@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static java.util.Collections.emptyList;
 
 
 /**
@@ -21,14 +23,15 @@ import java.util.List;
 public final class AdapterDelegate implements ItemManager {
 
     /**
-     * The item registry.
+     * The item metadata registry.
      */
-    private SparseArray<ItemConfig> registry = new SparseArray<>();
+    private SparseArray<ItemMetadata> registry = new SparseArray<>();
 
     /**
-     * The data list.
+     * The list of items.
      */
-    private List<? extends AdapterItem> list = new ArrayList<>();
+    @NonNull
+    private List<? extends AdapterItem> list = emptyList();
 
     /**
      * Gets item count.
@@ -36,7 +39,7 @@ public final class AdapterDelegate implements ItemManager {
      * @return The item count.
      */
     public int getItemCount() {
-        return list == null ? 0 : list.size();
+        return list.size();
     }
 
     /**
@@ -46,9 +49,6 @@ public final class AdapterDelegate implements ItemManager {
     @SuppressWarnings("unchecked")
     @Override
     public <T extends AdapterItem> T getItem(int position) {
-        if (list == null) {
-            return null;
-        }
         if (position < 0 || position >= list.size()) {
             return null;
         }
@@ -60,69 +60,60 @@ public final class AdapterDelegate implements ItemManager {
      */
     @Override
     public ItemManager setList(List<? extends AdapterItem> list) {
-        this.list = list;
+        this.list = list == null ? Collections.<AdapterItem>emptyList() : list;
         return this;
     }
 
     @NonNull
     @Override
-    public <T extends ViewHolder> ItemManager register(int type, Class<T> holderClass) {
-        register(type, type, holderClass);
+    public <T extends ViewHolder> ItemManager register(int layoutId, Class<T> holderClass) {
+        ItemMetadata metadata = new ItemMetadata();
+        metadata.setLayoutId(layoutId);
+        metadata.setHolderClass(holderClass);
+        register(metadata);
         return this;
     }
 
     @NonNull
     @Override
-    public <T extends ViewHolder> ItemManager register(int type, int layoutId, Class<T> holderClass) {
-        ItemConfig config = new ItemConfig();
-        config.setType(type);
-        config.setLayoutId(layoutId);
-        config.setHolderClass(holderClass);
-        register(config);
-        return this;
-    }
-
-    @NonNull
-    @Override
-    public ItemManager register(ItemConfig config) {
-        if (config != null) {
-            registry.put(config.getType(), config);
+    public ItemManager register(ItemMetadata metadata) {
+        if (metadata != null) {
+            registry.put(metadata.getLayoutId(), metadata);
         }
         return this;
     }
 
     @NonNull
     @Override
-    public ItemManager unregister(int type) {
-        registry.delete(type);
+    public ItemManager unregister(int layoutId) {
+        registry.delete(layoutId);
         return this;
     }
 
     public int getItemViewType(int position) {
         AdapterItem item = getItem(position);
-        ItemConfig adapter = null;
+        ItemMetadata metadata = null;
         if (item != null) {
-            adapter = registry.get(item.getType());
+            metadata = registry.get(item.getLayoutId());
         }
-        if (adapter == null) {
+        if (metadata == null) {
             // TODO
             return 0;
         }
-        return adapter.getType();
+        return metadata.getLayoutId();
     }
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemConfig adapter = registry.get(viewType);
-        if (adapter == null) {
+        ItemMetadata metadata = registry.get(viewType);
+        if (metadata == null) {
             return null;
         }
 
-        int layoutId = adapter.getLayoutId();
-        layoutId = layoutId == 0 ? adapter.getType() : layoutId;
+        int layoutId = metadata.getLayoutId();
         if (layoutId > 0) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(layoutId, parent, false);
-            return createViewHolder(itemView, adapter.getHolderClass());
+            return createViewHolder(itemView, metadata.getHolderClass());
         }
 
         return null;

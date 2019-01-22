@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 
-import com.samelody.modapter.Adapter;
+import com.samelody.modapter.ModularAdapter;
 import com.samelody.modapter.AdapterItem;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView listView;
 
-    private Adapter adapter;
+    private ModularAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,14 +22,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listView = findViewById(R.id.list);
-        adapter = new Adapter();
+        adapter = new ModularAdapter();
         listView.setAdapter(adapter);
 
         adapter.getManager()
                 .register(R.layout.item_gallery_image, ImageViewHolder.class)
                 .register(R.layout.item_gallery_date, DateViewHolder.class);
 
-        adapter.getManager().unregister(3);
+        adapter.getManager().unregister(R.layout.item_gallery_image);
 
         List<AdapterItem> list = new ArrayList<>();
         list.add(new ImageItem());
@@ -38,6 +38,5 @@ public class MainActivity extends AppCompatActivity {
         list.add(new ImageItem());
         adapter.getManager().setList(list);
         adapter.notifyDataSetChanged();
-
     }
 }

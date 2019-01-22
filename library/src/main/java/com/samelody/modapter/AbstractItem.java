@@ -8,23 +8,23 @@ package com.samelody.modapter;
 public abstract class AbstractItem implements AdapterItem {
 
     /**
-     * The type of item.
+     * The resource id of item layout.
      */
-    private int type;
+    private int layoutId;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setType(int type) {
-        this.type = type;
+    public void setLayoutId(int layoutId) {
+        this.layoutId = layoutId;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getType() {
-        return type;
+    public int getLayoutId() {
+        return layoutId;
     }
 }

@@ -6,11 +6,11 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.ViewGroup;
 
 /**
- * The modular adapter.
+ * A modular adapter for {@link RecyclerView}.
  *
  * @author Belin Wu
  */
-public class Adapter extends RecyclerView.Adapter<ViewHolder> {
+public class ModularAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     /**
      * The delegated implementation.

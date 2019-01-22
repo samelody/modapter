@@ -1,5 +1,7 @@
 package com.samelody.modapter;
 
+import android.support.annotation.LayoutRes;
+
 /**
  * The interface represents the item in a adapter.
  *
@@ -8,16 +10,17 @@ package com.samelody.modapter;
 public interface AdapterItem {
 
     /**
-     * Sets type of item.
+     * Sets resource id of item layout.
      *
-     * @param type The type of item.
+     * @param layoutId The resource id of item layout.
      */
-    void setType(int type);
+    void setLayoutId(@LayoutRes int layoutId);
 
     /**
-     * Gets type of item.
+     * Gets resource id of item layout.
      *
-     * @return The type of item.
+     * @return The resource id of item layout.
      */
-    int getType();
+    @LayoutRes
+    int getLayoutId();
 }
