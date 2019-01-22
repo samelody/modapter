@@ -5,7 +5,7 @@ package com.samelody.modapter;
  *
  * @author Belin Wu
  */
-public interface Item {
+public interface AdapterItem {
 
     /**
      * Sets type of item.

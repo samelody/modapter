@@ -1,11 +1,11 @@
 package com.samelody.modapter;
 
 /**
- * The abstract implementation of the {@link Item} interface.
+ * The abstract implementation of the {@link AdapterItem} interface.
  *
  * @author Belin Wu
  */
-public abstract class AbstractItem implements Item {
+public abstract class AbstractItem implements AdapterItem {
 
     /**
      * The type of item.

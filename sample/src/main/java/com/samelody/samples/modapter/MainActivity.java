@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 
 import com.samelody.modapter.Adapter;
-import com.samelody.modapter.Item;
+import com.samelody.modapter.AdapterItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.getManager().unregister(3);
 
-        List<Item> list = new ArrayList<>();
+        List<AdapterItem> list = new ArrayList<>();
         list.add(new ImageItem());
         list.add(new DateItem());
         list.add(new ImageItem());

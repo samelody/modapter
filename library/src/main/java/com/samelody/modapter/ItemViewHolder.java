@@ -6,12 +6,12 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 
 /**
- *
+ * A holder with bound data item for item view.
  *
  * @param <T> The type of item.
  * @author Belin Wu
  */
-public abstract class ItemViewHolder<T extends Item> extends ViewHolder {
+public abstract class ItemViewHolder<T extends AdapterItem> extends ViewHolder {
 
     /**
      * The data item bound with this view holder.

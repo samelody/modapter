@@ -28,7 +28,7 @@ public final class AdapterDelegate implements ItemManager {
     /**
      * The data list.
      */
-    private List<? extends Item> list = new ArrayList<>();
+    private List<? extends AdapterItem> list = new ArrayList<>();
 
     /**
      * Gets item count.
@@ -45,7 +45,7 @@ public final class AdapterDelegate implements ItemManager {
     @Nullable
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Item> T getItem(int position) {
+    public <T extends AdapterItem> T getItem(int position) {
         if (list == null) {
             return null;
         }
@@ -59,7 +59,7 @@ public final class AdapterDelegate implements ItemManager {
      * {@inheritDoc}
      */
     @Override
-    public ItemManager setList(List<? extends Item> list) {
+    public ItemManager setList(List<? extends AdapterItem> list) {
         this.list = list;
         return this;
     }
@@ -99,7 +99,7 @@ public final class AdapterDelegate implements ItemManager {
     }
 
     public int getItemViewType(int position) {
-        Item item = getItem(position);
+        AdapterItem item = getItem(position);
         ItemConfig adapter = null;
         if (item != null) {
             adapter = registry.get(item.getType());
@@ -148,7 +148,7 @@ public final class AdapterDelegate implements ItemManager {
 
     @SuppressWarnings("unchecked")
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Item item = getItem(position);
+        AdapterItem item = getItem(position);
         if (holder instanceof ItemViewHolder) {
             ItemViewHolder viewHolder = (ItemViewHolder) holder;
             viewHolder.setItem(item);

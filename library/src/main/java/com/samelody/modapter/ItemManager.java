@@ -15,13 +15,13 @@ import java.util.List;
 public interface ItemManager {
 
     /**
-     * Sets the data list.
+     * Sets the list of items.
      *
-     * @param list The data list.
+     * @param list The list of items.
      * @return this item manager.
      */
     @NonNull
-    ItemManager setList(List<? extends Item> list);
+    ItemManager setList(List<? extends AdapterItem> list);
 
     @NonNull
     <T extends ViewHolder> ItemManager register(int type, Class<T> holderClass);
@@ -32,6 +32,12 @@ public interface ItemManager {
     @NonNull
     ItemManager register(ItemConfig config);
 
+    /**
+     * Unregisters the item with given type.
+     *
+     * @param type The type of item.
+     * @return this item manager.
+     */
     @NonNull
     ItemManager unregister(int type);
 
@@ -43,5 +49,5 @@ public interface ItemManager {
      * @return The item at the given position.
      */
     @Nullable
-    <T extends Item> T getItem(int position);
+    <T extends AdapterItem> T getItem(int position);
 }
