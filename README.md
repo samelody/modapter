@@ -1,30 +1,60 @@
 # Modapter
 
+![Android](https://img.shields.io/badge/platform-Android-brightgreen.svg)
+![Apache](https://img.shields.io/github/license/samelody/modapter.svg)
+![API](https://img.shields.io/badge/API-15%2B-brightgreen.svg)
+
 Modular adapter for Android RecyclerView.
 
-This is an **alpha** library until V1.0.0 is released.
+**DO NOT USE THIS LIBRARY IN PRODUCTION UNTIL V1.0.0 IS RELEASED.**
 
-**DO NOT USE THIS LIBRARY IN PRODUCTION.**
+# Download
 
-# Draft usage
+Coming soon...
+
+# Getting started
 
 ```java
-Adapter adapter = new Adapter();
-recycelrView.setAdapter(adapter);
+// create a ModularAdapter object instead of creating new Subclass of RecyclerView.Adapter.
+ModularAdapter adapter = new ModularAdapter();
+recyclerView.setAdapter(adapter);
 
-adapter.getManager()
-        .register(R.layout.item_gallery_image, ImageViewHolder.class)
+// register item metadata to manager
+ItemManager manager = adapter.getManager();
+manager.register(R.layout.item_gallery_image, ImageViewHolder.class)
         .register(R.layout.item_gallery_date, DateViewHolder.class);
 
-adapter.getManager().unregister(3);
-
+// prepare data list
 List<Item> list = new ArrayList<>();
 list.add(new ImageItem());
 list.add(new DateItem());
-list.add(new ImageItem());
-list.add(new ImageItem());
-adapter.getManager().setList(list);
+
+// Setup list and notify
+manager.setList(list);
 adapter.notifyDataSetChanged();
+```
+
+# Developer Doc
+
+## ItemManager
+
+All APIs are encapsulated in `ItemManager` interface returned by `ModularAdapter#getItemManager()`.
+
+```java
+// register via layoutId and holderClass
+ItemManager register(@LayoutRes int layoutId, Class<T> holderClass);
+
+// register via ItemMetadata
+ItemManager register(ItemMetadata metadata);
+
+// unregister via layoutId
+ItemManager unregister(@LayoutRes int layoutId);
+
+// setup the data list
+ItemManager setList(List<? extends AdapterItem> list);
+
+// Gets the item with given position
+T getItem(int position);
 ```
 
 # License
