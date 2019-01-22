@@ -1,0 +1,104 @@
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = pub.groupId
+version = pub.libraryVersion
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging pub.packaging
+                groupId pub.groupId
+                artifactId pub.artifactId
+                version pub.libraryVersion
+
+                // Add your description here
+                name pub.libraryName
+                description pub.libraryDescription
+                url pub.siteUrl
+
+                // Set your license
+                licenses {
+                    license {
+                        name pub.licenseName
+                        url pub.licenseUrl
+                    }
+                }
+                developers {
+                    developer {
+                        id pub.developerId
+                        name pub.developerName
+                        email pub.developerEmail
+                    }
+                }
+                scm {
+                    connection pub.gitUrl
+                    developerConnection pub.gitUrl
+                    url pub.siteUrl
+                }
+            }
+        }
+    }
+}
+
+apply plugin: 'com.jfrog.bintray'
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    baseName = pub.libraryId
+    classifier = "sources"
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    description pub.libraryName + " Javadoc"
+    source = android.libraryVariants["release"].javaCompile.source
+    ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+    classpath = files(android.libraryVariants["release"].javaCompile.classpath.files) + files(ext.androidJar)
+    options.links("http://docs.oracle.com/javase/7/docs/api/")
+    options.links("http://d.android.com/reference/")
+    exclude '**/BuildConfig.java'
+    exclude '**/R.java'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = "javadoc"
+    baseName = pub.libraryId
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+// Bintray
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = pub.libraryRepo
+        name = pub.libraryId
+        desc = pub.libraryDescription
+        websiteUrl = pub.siteUrl
+        vcsUrl = pub.gitUrl
+        issueTrackerUrl = pub.issueUrl
+        licenses = pub.licenses
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = pub.libraryDescription
+//            gpg {
+//                sign = false //Determines whether to GPG sign the files. The default is false
+//                passphrase = properties.getProperty("bintray.gpg.password")
+//                //Optional. The passphrase for GPG signing'
+//            }
+        }
+    }
+}

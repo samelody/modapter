@@ -10,7 +10,9 @@ Modular adapter for Android RecyclerView.
 
 # Download
 
-Coming soon...
+```groovy
+implementation "com.samelody.modapter:modapter:0.1.0"
+```
 
 # Getting started
 
