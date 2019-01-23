@@ -1,7 +1,9 @@
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 group = pub.groupId
 version = pub.libraryVersion
+archivesBaseName = pub.artifactId
 
 install {
     repositories.mavenInstaller {
@@ -40,8 +42,6 @@ install {
         }
     }
 }
-
-apply plugin: 'com.jfrog.bintray'
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
