@@ -3,18 +3,22 @@
 ![Android](https://img.shields.io/badge/platform-Android-brightgreen.svg)
 ![Apache](https://img.shields.io/github/license/samelody/modapter.svg)
 ![API](https://img.shields.io/badge/API-15%2B-brightgreen.svg)
+[![Bintray](https://api.bintray.com/packages/belinwu/maven/modapter/images/download.svg)](https://bintray.com/belinwu/maven/modapter/_latestVersion)
 
 Modular adapter for Android RecyclerView.
 
 **DO NOT USE THIS LIBRARY IN PRODUCTION UNTIL V1.0.0 IS RELEASED.**
 
-# Download
+# Installation
+Add the following dependency to your `build.gradle` file:
 
 ```groovy
-implementation "com.samelody.modapter:modapter:0.1.0"
+dependencies {
+    implementation 'com.samelody.modapter:modapter:0.1.0'
+}
 ```
 
-# Getting started
+# Usage
 
 ```java
 // create a ModularAdapter object instead of creating new Subclass of RecyclerView.Adapter.
@@ -36,7 +40,7 @@ manager.setList(list);
 adapter.notifyDataSetChanged();
 ```
 
-# Developer Doc
+# Docs
 
 ## ItemManager
 
