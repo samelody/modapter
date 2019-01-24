@@ -29,4 +29,23 @@ dependencies {
     androidTestImplementation deps.espresso
 }
 
-apply from: "../publish.gradle"
+ext.pubspec = [:]
+
+pubspec.packaging = 'aar'
+pubspec.groupId = 'com.samelody.modapter'
+pubspec.artifactId = 'modapter'
+pubspec.repo = 'maven'
+pubspec.name = 'Modapter'
+pubspec.description = 'Modular adapter for Android RecyclerView.'
+pubspec.version = deps.libVersionName
+pubspec.url = 'https://github.com/samelody/modapter'
+pubspec.gitUrl = 'https://github.com/samelody/modapter.git'
+pubspec.issueUrl = 'https://github.com/samelody/modapter/issues'
+pubspec.developerId = 'belinwu'
+pubspec.developerName = 'Belin Wu'
+pubspec.developerEmail = 'belinwu@qq.com'
+pubspec.licenseName = 'Apache License 2.0'
+pubspec.licenseUrl = 'https://raw.githubusercontent.com/samelody/modapter/master/LICENSE'
+pubspec.licenses = ["Apache-2.0"]
+
+apply from: "https://raw.githubusercontent.com/samelody/pubman/master/pub.gradle"

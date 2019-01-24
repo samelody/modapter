@@ -19,28 +19,6 @@ buildscript {
     deps.test = "com.android.support.test:runner:1.0.2"
     deps.espresso = "com.android.support.test.espresso:espresso-core:3.0.2"
 
-    def pub = [:]
-    ext.pub = pub
-
-    pub.packaging = 'aar'
-    pub.groupId = 'com.samelody.modapter'
-    pub.artifactId = 'modapter'
-    pub.libraryRepo = 'maven'
-    pub.libraryId = 'modapter'
-    pub.libraryName = 'Modapter'
-    pub.libraryDescription = 'Modular adapter for Android RecyclerView.'
-    pub.libraryVersion = deps.libVersionName
-    pub.libraryVersionCode = deps.libVersionCode
-    pub.siteUrl = 'https://github.com/samelody/modapter'
-    pub.gitUrl = 'https://github.com/samelody/modapter.git'
-    pub.issueUrl = 'https://github.com/samelody/modapter/issues'
-    pub.developerId = 'belinwu'
-    pub.developerName = 'Belin Wu'
-    pub.developerEmail = 'belinwu@qq.com'
-    pub.licenseName = 'Apache License 2.0'
-    pub.licenseUrl = 'https://raw.githubusercontent.com/samelody/modapter/master/LICENSE'
-    pub.licenses = ["Apache-2.0"]
-
     repositories {
         google()
         jcenter()
