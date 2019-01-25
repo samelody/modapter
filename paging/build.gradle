@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+
+ext.pubspec = [:]
+
+pubspec.packaging = 'aar'
+pubspec.groupId = 'com.samelody.modapter'
+pubspec.artifactId = 'modapter-paging'
+pubspec.repo = 'maven'
+pubspec.name = 'Modapter'
+pubspec.description = 'Modular adapter for Android RecyclerView.'
+pubspec.version = "0.2.0"
+pubspec.versionCode = 2
+pubspec.url = 'https://github.com/samelody/modapter'
+pubspec.gitUrl = 'https://github.com/samelody/modapter.git'
+pubspec.issueUrl = 'https://github.com/samelody/modapter/issues'
+pubspec.developerId = 'belinwu'
+pubspec.developerName = 'Belin Wu'
+pubspec.developerEmail = 'belinwu@qq.com'
+pubspec.licenseName = 'Apache License 2.0'
+pubspec.licenseUrl = 'https://raw.githubusercontent.com/samelody/modapter/master/LICENSE'
+pubspec.licenses = ["Apache-2.0"]
+
+android {
+    compileSdkVersion deps.compileSdk
+    defaultConfig {
+        minSdkVersion deps.minSdk
+        targetSdkVersion deps.targetSdk
+        versionCode pubspec.versionCode
+        versionName pubspec.version
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.paging
+    implementation project(':core')
+
+    testImplementation deps.junit
+
+    androidTestImplementation deps.test
+    androidTestImplementation deps.espresso
+}
+
+apply from: "https://raw.githubusercontent.com/samelody/pubman/master/pub.gradle"

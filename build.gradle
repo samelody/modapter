@@ -4,16 +4,13 @@ buildscript {
     def deps = [:]
     ext.deps = deps
 
-    deps.libVersionCode = 1
-    deps.libVersionName = "0.1.0"
-    deps.demoVersionCode = 1
-    deps.demoVersionName = "0.1.0"
     deps.compileSdk = 28
     deps.targetSdk = 28
     deps.minSdk = 15
 
     deps.appcompat = "com.android.support:appcompat-v7:28.0.0"
     deps.recyclerview = "com.android.support:recyclerview-v7:28.0.0"
+    deps.paging = "android.arch.paging:runtime:1.0.1"
     deps.constraintlayout = "com.android.support.constraint:constraint-layout:1.1.3"
     deps.junit = "junit:junit:4.12"
     deps.test = "com.android.support.test:runner:1.0.2"

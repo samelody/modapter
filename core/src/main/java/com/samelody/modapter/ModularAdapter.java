@@ -2,20 +2,25 @@ package com.samelody.modapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.ViewGroup;
 
+import com.samelody.modapter.differ.AsyncDiffer;
+
 /**
- * A modular adapter for {@link RecyclerView}.
+ * A modular list adapter for presenting List data in a {@link RecyclerView}, including computing
+ * diffs between Lists on a background thread by {@link AsyncDiffer<E>}.
  *
+ * @param <E> The type of elements in the list.
  * @author Belin Wu
  */
-public class ModularAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class ModularAdapter<E extends AdapterItem> extends Adapter<ViewHolder> {
 
     /**
      * The delegated implementation.
      */
-    private AdapterDelegate delegate = new AdapterDelegate();
+    private AdapterDelegate<E> delegate = new AdapterDelegate<>();
 
     @Override
     public int getItemViewType(int position) {
@@ -61,7 +66,7 @@ public class ModularAdapter extends RecyclerView.Adapter<ViewHolder> {
      *
      * @return The item manager.
      */
-    public ItemManager getManager() {
+    public ItemManager<E> getManager() {
         return delegate;
     }
 }

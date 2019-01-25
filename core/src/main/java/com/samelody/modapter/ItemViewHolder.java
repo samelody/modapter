@@ -8,7 +8,7 @@ import android.view.View;
 /**
  * A holder with bound data item for item view.
  *
- * @param <T> The type of item.
+ * @param <T> The type of data item.
  * @author Belin Wu
  */
 public abstract class ItemViewHolder<T extends AdapterItem> extends ViewHolder {
@@ -27,18 +27,32 @@ public abstract class ItemViewHolder<T extends AdapterItem> extends ViewHolder {
         this.item = item;
     }
 
+    /**
+     * Called when item view has been bound.
+     *
+     * @param item The data item bound within this view holder.
+     */
     protected void onViewBound(T item) {
         // empty
     }
 
+    /**
+     * Called when item view has been recycled.
+     */
     protected void onViewRecycled() {
         // empty
     }
 
+    /**
+     * Called when item view has been attached to a window.
+     */
     protected void onViewAttachedToWindow() {
         // empty
     }
 
+    /**
+     * Called when item view has been detached from its window.
+     */
     protected void onViewDetachedFromWindow() {
         // empty
     }

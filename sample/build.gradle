@@ -6,8 +6,8 @@ android {
         applicationId "com.samelody.samples.modapter"
         minSdkVersion deps.minSdk
         targetSdkVersion deps.targetSdk
-        versionCode deps.demoVersionCode
-        versionName deps.demoVersionName
+        versionCode 2
+        versionName "0.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -20,8 +20,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':library')
-//    implementation "com.samelody.modapter:modapter:0.1.0"
+    implementation project(':core')
+    implementation project(':paging')
+//    implementation "com.samelody.modapter:modapter-core:0.2.0"
+//    implementation "com.samelody.modapter:modapter-paging:0.2.0"
     implementation deps.appcompat
     implementation deps.recyclerview
     implementation deps.constraintlayout
