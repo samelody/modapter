@@ -52,6 +52,7 @@ public final class AdapterDelegate<E extends AdapterItem> implements ItemManager
      *
      * @return The item count.
      */
+    @Override
     public int getItemCount() {
         return differ.getItemCount();
     }

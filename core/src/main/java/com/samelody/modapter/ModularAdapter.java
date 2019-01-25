@@ -1,15 +1,12 @@
 package com.samelody.modapter;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.ViewGroup;
 
 import com.samelody.modapter.differ.AsyncDiffer;
-
-import java.util.List;
 
 /**
  * A modular list adapter for presenting List data in a {@link RecyclerView}, including computing
@@ -18,9 +15,7 @@ import java.util.List;
  * @param <E> The type of elements in the list.
  * @author Belin Wu
  */
-public class ModularAdapter<E extends AdapterItem>
-        extends Adapter<ViewHolder>
-        implements ItemManager<E> {
+public class ModularAdapter<E extends AdapterItem> extends Adapter<ViewHolder> {
 
     /**
      * The delegated implementation.
@@ -72,53 +67,6 @@ public class ModularAdapter<E extends AdapterItem>
      * @return The item manager.
      */
     public ItemManager<E> getManager() {
-        return delegate;
-    }
-
-    // implements ItemManager interface
-
-    @Override
-    public ItemManager<E> setDiffer(AsyncDiffer<E> differ) {
-        delegate.setDiffer(differ);
-        return delegate;
-    }
-
-    @NonNull
-    @Override
-    public ItemManager<E> submitList(List<? extends E> list) {
-        delegate.submitList(list);
-        return delegate;
-    }
-
-    @Override
-    public List<E> getCurrentList() {
-        return delegate.getCurrentList();
-    }
-
-    @Nullable
-    @Override
-    public E getItem(int position) {
-        return delegate.getItem(position);
-    }
-
-    @NonNull
-    @Override
-    public ItemManager<E> register(int layoutId, Class<? extends ViewHolder> holderClass) {
-        delegate.register(layoutId, holderClass);
-        return delegate;
-    }
-
-    @NonNull
-    @Override
-    public ItemManager<E> register(ItemMetadata metadata) {
-        delegate.register(metadata);
-        return delegate;
-    }
-
-    @NonNull
-    @Override
-    public ItemManager<E> unregister(int layoutId) {
-        delegate.unregister(layoutId);
         return delegate;
     }
 }

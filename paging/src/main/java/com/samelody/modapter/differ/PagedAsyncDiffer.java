@@ -5,9 +5,9 @@ import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.recyclerview.extensions.AsyncDifferConfig;
-import android.support.v7.util.DiffUtil;
+import android.support.v7.util.DiffUtil.ItemCallback;
 import android.support.v7.util.ListUpdateCallback;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.Adapter;
 
 import java.util.List;
 
@@ -24,16 +24,17 @@ public class PagedAsyncDiffer<E> implements AsyncDiffer<E> {
      */
     private final AsyncPagedListDiffer<E> differ;
 
-    public PagedAsyncDiffer(@NonNull RecyclerView.Adapter adapter,
-                            @NonNull DiffUtil.ItemCallback<E> callback) {
+    public PagedAsyncDiffer(@NonNull Adapter adapter,
+                            @NonNull ItemCallback<E> callback) {
         differ = new AsyncPagedListDiffer<>(adapter, callback);
     }
 
-    public PagedAsyncDiffer(@NonNull ListUpdateCallback listUpdateCallback,
+    public PagedAsyncDiffer(@NonNull ListUpdateCallback callback,
                             @NonNull AsyncDifferConfig<E> config) {
-        differ = new AsyncPagedListDiffer<>(listUpdateCallback, config);
+        differ = new AsyncPagedListDiffer<>(callback, config);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void submitList(@Nullable List<? extends E> list) {
         if (list instanceof PagedList) {
@@ -45,13 +46,7 @@ public class PagedAsyncDiffer<E> implements AsyncDiffer<E> {
 
     @Override
     public E getItem(int position) {
-        if (getCurrentList() == null) {
-            return null;
-        }
-        if (position < 0 || position >= getCurrentList().size()) {
-            return null;
-        }
-        return getCurrentList().get(position);
+        return NonAsyncDiffer.getItem(this, position);
     }
 
     @Override

@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.recyclerview.extensions.AsyncDifferConfig;
 import android.support.v7.recyclerview.extensions.AsyncListDiffer;
-import android.support.v7.util.DiffUtil;
+import android.support.v7.util.DiffUtil.ItemCallback;
 import android.support.v7.util.ListUpdateCallback;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.Adapter;
 
 import java.util.List;
 
@@ -23,8 +23,8 @@ public class ListAsyncDiffer<E> implements AsyncDiffer<E> {
      */
     private final AsyncListDiffer<E> differ;
 
-    public ListAsyncDiffer(@NonNull RecyclerView.Adapter adapter,
-                           @NonNull DiffUtil.ItemCallback<E> callback) {
+    public ListAsyncDiffer(@NonNull Adapter adapter,
+                           @NonNull ItemCallback<E> callback) {
         differ = new AsyncListDiffer<>(adapter, callback);
     }
 
@@ -33,6 +33,7 @@ public class ListAsyncDiffer<E> implements AsyncDiffer<E> {
         differ = new AsyncListDiffer<>(callback, config);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void submitList(@Nullable List<? extends E> list) {
         differ.submitList((List<E>) list);
@@ -40,10 +41,7 @@ public class ListAsyncDiffer<E> implements AsyncDiffer<E> {
 
     @Override
     public E getItem(int position) {
-        if (position < 0 || position >= getCurrentList().size()) {
-            return null;
-        }
-        return getCurrentList().get(position);
+        return NonAsyncDiffer.getItem(this, position);
     }
 
     @Override

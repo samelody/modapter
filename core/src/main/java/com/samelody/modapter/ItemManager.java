@@ -51,6 +51,13 @@ public interface ItemManager<E> {
     E getItem(int position);
 
     /**
+     * Gets item count of current list.
+     *
+     * @return The item count of current list.
+     */
+    int getItemCount();
+
+    /**
      * Registers the item metadata.
      *
      * @param layoutId The resource id of item layout.

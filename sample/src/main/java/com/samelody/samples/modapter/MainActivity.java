@@ -33,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
         list.add(new ImageItem());
         list.add(new ImageItem());
         list.add(new ImageItem());
-        adapter.submitList(list);
+        manager.submitList(list);
         adapter.notifyDataSetChanged();
 
         manager.getCurrentList();
-        adapter.getItem(0);
+        manager.getItem(0);
     }
 }
