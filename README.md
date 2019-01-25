@@ -10,11 +10,16 @@ Modular adapter for Android RecyclerView.
 **DO NOT USE THIS LIBRARY IN PRODUCTION UNTIL V1.0.0 IS RELEASED.**
 
 # Installation
+
 Add the following dependency to your `build.gradle` file:
 
 ```groovy
 dependencies {
-    implementation 'com.samelody.modapter:modapter:0.1.0'
+    // required, core
+    implementation 'com.samelody.modapter:modapter-core:0.2.0'
+    
+    // optional, support android paging library
+    implementation 'com.samelody.modapter:modapter-paging:0.2.0'
 }
 ```
 
@@ -22,11 +27,11 @@ dependencies {
 
 ```java
 // create a ModularAdapter object instead of creating new Subclass of RecyclerView.Adapter.
-ModularAdapter adapter = new ModularAdapter();
-recyclerView.setAdapter(adapter);
+ModularAdapter<AdapterItem> adapter = new ModularAdapter<>();
+listView.setAdapter(adapter);
 
 // register item metadata to manager
-ItemManager manager = adapter.getManager();
+ItemManager<AdapterItem> manager = adapter.getManager();
 manager.register(R.layout.item_gallery_image, ImageViewHolder.class)
         .register(R.layout.item_gallery_date, DateViewHolder.class);
 
@@ -35,32 +40,67 @@ List<Item> list = new ArrayList<>();
 list.add(new ImageItem());
 list.add(new DateItem());
 
-// Setup list and notify
-manager.setList(list);
+// submit list
+manager.submitList(list);
+
+// notify adapter if no async differs used
 adapter.notifyDataSetChanged();
 ```
 
-# Docs
+## AsyncDiffer
+
+The `ItemManager` not enable async diffing by default.
+
+You can setup `AsyncDiffer` by your choice. The setting API is
+
+`ItemManager#setDiffer()`.
+
+The implemented async differs are following:
+
+- `NonAsyncDiffer`: The non implementation. (default used)
+- `ListAsyncDiffer`: The `AsyncListDiffer` implementation.
+- `PagedAsyncDiffer`: The `AsyncPagedListDiffer` implementation.
+
+### Using Async Differ
+
+```java
+// set differ
+manager.setDiffer(new ListAsyncDiffer<>());
+
+// submit list
+manager.submitList(list);
+
+// not need to call adapter.notify APIs
+```
 
 ## ItemManager
 
-All APIs are encapsulated in `ItemManager` interface returned by `ModularAdapter#getItemManager()`.
+All APIs are encapsulated in `ItemManager` interface returned by `ModularAdapter#getManager()`.
 
 ```java
 // register via layoutId and holderClass
-ItemManager register(@LayoutRes int layoutId, Class<T> holderClass);
+ItemManager<E> register(@LayoutRes int layoutId, Class<T> holderClass);
 
 // register via ItemMetadata
-ItemManager register(ItemMetadata metadata);
+ItemManager<E> register(ItemMetadata metadata);
 
 // unregister via layoutId
-ItemManager unregister(@LayoutRes int layoutId);
+ItemManager<E> unregister(@LayoutRes int layoutId);
 
 // setup the data list
-ItemManager setList(List<? extends AdapterItem> list);
+ItemManager<E> submitList(List<? extends E> list);
 
 // Gets the item with given position
-T getItem(int position);
+E getItem(int position);
+
+// Gets current displayed list
+List<E> getCurrentList();
+
+// Gets item count
+int getItemCount();
+
+// setup async differ
+ItemManager<E> setDiffer(AsyncDiffer<E> differ);
 ```
 
 # License

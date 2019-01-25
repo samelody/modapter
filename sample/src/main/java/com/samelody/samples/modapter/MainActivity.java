@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 
-import com.samelody.modapter.AbstractItem;
+import com.samelody.modapter.AdapterItem;
 import com.samelody.modapter.ItemManager;
 import com.samelody.modapter.ModularAdapter;
 
@@ -19,20 +19,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RecyclerView listView = findViewById(R.id.list);
-        ModularAdapter<AbstractItem> adapter = new ModularAdapter<>();
+        ModularAdapter<AdapterItem> adapter = new ModularAdapter<>();
         listView.setAdapter(adapter);
 
-        ItemManager<AbstractItem> manager = adapter.getManager();
+        ItemManager<AdapterItem> manager = adapter.getManager();
         manager.register(R.layout.item_gallery_image, ImageViewHolder.class)
                 .register(R.layout.item_gallery_date, DateViewHolder.class);
 
         manager.unregister(R.layout.item_gallery_image);
 
-        List<ImageItem> list = new ArrayList<>();
+        List<AdapterItem> list = new ArrayList<>();
         list.add(new ImageItem());
+        list.add(new DateItem());
         list.add(new ImageItem());
-        list.add(new ImageItem());
-        list.add(new ImageItem());
+        list.add(new DateItem());
         manager.submitList(list);
         adapter.notifyDataSetChanged();
 
