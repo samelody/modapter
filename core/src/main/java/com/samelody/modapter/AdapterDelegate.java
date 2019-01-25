@@ -8,11 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
-import java.util.List;
+import com.samelody.modapter.differ.AsyncDiffer;
+import com.samelody.modapter.differ.NonAsyncDiffer;
 
-import static java.util.Collections.emptyList;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 
 /**
@@ -20,7 +20,7 @@ import static java.util.Collections.emptyList;
  *
  * @author Belin Wu
  */
-public final class AdapterDelegate implements ItemManager {
+public final class AdapterDelegate<E extends AdapterItem> implements ItemManager<E> {
 
     /**
      * The item metadata registry.
@@ -28,10 +28,24 @@ public final class AdapterDelegate implements ItemManager {
     private SparseArray<ItemMetadata> registry = new SparseArray<>();
 
     /**
-     * The list of items.
+     * A async differ.
      */
-    @NonNull
-    private List<? extends AdapterItem> list = emptyList();
+    private AsyncDiffer<E> differ;
+
+    public AdapterDelegate() {
+        this(new NonAsyncDiffer<E>());
+    }
+
+    public AdapterDelegate(AsyncDiffer<E> differ) {
+        checkDiffer(differ);
+        this.differ = differ;
+    }
+
+    private void checkDiffer(AsyncDiffer<E> differ) {
+        if (differ == null) {
+            throw new IllegalArgumentException("differ argument must not be null");
+        }
+    }
 
     /**
      * Gets item count.
@@ -39,34 +53,37 @@ public final class AdapterDelegate implements ItemManager {
      * @return The item count.
      */
     public int getItemCount() {
-        return list.size();
+        return differ.getItemCount();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Nullable
-    @SuppressWarnings("unchecked")
     @Override
-    public <T extends AdapterItem> T getItem(int position) {
-        if (position < 0 || position >= list.size()) {
-            return null;
-        }
-        return (T) list.get(position);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ItemManager setList(List<? extends AdapterItem> list) {
-        this.list = list == null ? Collections.<AdapterItem>emptyList() : list;
+    public ItemManager<E> setDiffer(AsyncDiffer<E> differ) {
+        checkDiffer(differ);
+        this.differ = differ;
         return this;
     }
 
     @NonNull
     @Override
-    public <T extends ViewHolder> ItemManager register(int layoutId, Class<T> holderClass) {
+    public ItemManager<E> submitList(List<? extends E> list) {
+        differ.submitList(list);
+        return this;
+    }
+
+    @Override
+    public List<E> getCurrentList() {
+        return differ.getCurrentList();
+    }
+
+    @Nullable
+    @Override
+    public E getItem(int position) {
+        return differ.getItem(position);
+    }
+
+    @NonNull
+    @Override
+    public ItemManager<E> register(int layoutId, Class<? extends ViewHolder> holderClass) {
         ItemMetadata metadata = new ItemMetadata();
         metadata.setLayoutId(layoutId);
         metadata.setHolderClass(holderClass);
@@ -76,7 +93,7 @@ public final class AdapterDelegate implements ItemManager {
 
     @NonNull
     @Override
-    public ItemManager register(ItemMetadata metadata) {
+    public ItemManager<E> register(ItemMetadata metadata) {
         if (metadata != null) {
             registry.put(metadata.getLayoutId(), metadata);
         }
@@ -85,7 +102,7 @@ public final class AdapterDelegate implements ItemManager {
 
     @NonNull
     @Override
-    public ItemManager unregister(int layoutId) {
+    public ItemManager<E> unregister(int layoutId) {
         registry.delete(layoutId);
         return this;
     }
