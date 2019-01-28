@@ -51,9 +51,7 @@ adapter.notifyDataSetChanged();
 
 The `ItemManager` not enable async diffing by default.
 
-You can setup `AsyncDiffer` by your choice. The setting API is
-
-`ItemManager#setDiffer()`.
+You can setup `AsyncDiffer` by your choice. The setting API is `ItemManager#setDiffer()`.
 
 The implemented async differs are following:
 
@@ -102,6 +100,59 @@ int getItemCount();
 // setup async differ
 ItemManager<E> setDiffer(AsyncDiffer<E> differ);
 ```
+
+## Reusing ViewHolder and AdapterItem
+
+### One AdapterItem, Multi ViewHolders (a.k.a. Reuse AdapterItem)
+
+We have one ViewHolder called `BannerImageViewHolder` shows `ImageItem` as a banner image, another ViewHolder called `GridImageViewHolder` shows `ImageItem` as a gallery image in a grid.
+
+```java
+public class ImageItem implements AdapterItem { /*...*/ }
+
+public class BannerImageViewHolder extends ItemViewHolder<ImageItem> { /*...*/ }
+
+public class GridImageViewHolder extends ItemViewHolder<ImageItem> { /*...*/ }
+```
+
+Register the item metadatas.
+
+```java
+adapter.getManager()
+        .register(R.layout.item_image_banner, BannerImageViewHolder.class)
+        .register(R.layout.item_image_grid, GridImageViewHolder.class);
+```
+
+By changing the `ImageItem`'s layoutId to reuse itself.
+
+```java
+imageItem.setLayoutId(R.layout.item_image_banner);
+// or imageItem.setLayoutId(R.layout.item_image_grid);
+```
+
+### Multi AdapterItems, One ViewHolder (a.k.a. Reuse ViewHolder/ItemView)
+
+We have a ad item view display as a card called `AdViewHolder`. It display a image and a title. We also have two adapter items called `MusicItem` and `PlaylistItem`.
+
+Define `AdItem` interface as abstraction for `MusicItem` and `PlaylistItem`, used with `AdViewHolder`.
+
+```java
+public interface AdItem extends AdapterItem { 
+    String getAdImageUrl();
+
+    String getAdTitle();
+
+    void onAdClicked();
+ }
+
+public class MusicItem implements AdItem { /*...*/ }
+
+public class PlaylistItem implements AdItem { /*...*/ }
+
+public class AdViewHolder extends ItemViewHolder<AdItem> { /*...*/ }
+```
+
+Now, `AdViewHolder` be reused, and the `onAdClicked()`'s behavior determined by the `AdItem`, it implements the **Data-Driven-Development**.
 
 # License
 
