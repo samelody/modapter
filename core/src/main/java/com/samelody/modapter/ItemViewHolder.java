@@ -17,14 +17,29 @@ public abstract class ItemViewHolder<T extends AdapterItem> extends ViewHolder {
      * The data item bound with this view holder.
      */
     @Nullable
-    protected T item;
+    private T item;
 
     public ItemViewHolder(@NonNull View itemView) {
         super(itemView);
     }
 
+    /**
+     * Sets the data item bound with this view holder.
+     *
+     * @param item The data item.
+     */
     void setItem(@Nullable T item) {
         this.item = item;
+    }
+
+    /**
+     * Gets the data item bound with this view holder.
+     *
+     * @return The data item.
+     */
+    @Nullable
+    public T getItem() {
+        return item;
     }
 
     /**
