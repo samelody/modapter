@@ -11,7 +11,9 @@ import android.view.View;
  * @param <T> The type of data item.
  * @author Belin Wu
  */
-public abstract class ItemViewHolder<T extends AdapterItem> extends ViewHolder {
+public abstract class ItemViewHolder<T extends AdapterItem>
+        extends ViewHolder
+        implements View.OnClickListener, View.OnLongClickListener {
 
     /**
      * The data item bound with this view holder.
@@ -21,6 +23,8 @@ public abstract class ItemViewHolder<T extends AdapterItem> extends ViewHolder {
 
     public ItemViewHolder(@NonNull View itemView) {
         super(itemView);
+        itemView.setOnClickListener(this);
+        itemView.setOnLongClickListener(this);
     }
 
     /**
@@ -70,5 +74,27 @@ public abstract class ItemViewHolder<T extends AdapterItem> extends ViewHolder {
      */
     protected void onViewDetachedFromWindow() {
         // empty
+    }
+
+    /**
+     * Called when the item view is clicked.
+     *
+     * @param itemView The item view.
+     */
+    @Override
+    public void onClick(View itemView) {
+        // empty
+    }
+
+    /**
+     * Called when the item view has been clicked and held.
+     *
+     * @param itemView The item view.
+     *
+     * @return true if the callback consumed the long click, false otherwise.
+     */
+    @Override
+    public boolean onLongClick(View itemView) {
+        return false;
     }
 }
